@@ -1,0 +1,7 @@
+// created by px13r
+// Find any .pysa files
+DeviceFileEvents
+| where Timestamp < ago(7d)
+| where ActionType == 'FileModified'
+| where FileName has_any(".pysa", ".WHATEVER")
+| project Timestamp, DeviceName, FileName, DeviceId, ReportId

@@ -1,0 +1,11 @@
+// created by px13r
+// Finds Unsigned PowerShell Scripts
+DeviceProcessEvents
+| where Timestamp < ago(7d)
+| where FileName =~ "powershell.exe"
+| project AccountName, InitiatingProcessParentFileName, InitiatingProcessFileName, FileName, ProcessCommandLine, ProcessIntegrityLevel, ReportId, Timestamp
+| join (
+    DeviceFileCertificateInfo
+    | where IsSigned == False or IsTrusted == False
+    | project Timestamp, DeviceName, DeviceId, Signer, Issuer,  ReportId
+)on ReportId, Timestamp

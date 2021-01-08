@@ -1,0 +1,6 @@
+// created by px13r
+// Finds PowerShell Activitity
+DeviceProcessEvents
+| where Timestamp < ago(7d)
+| where FileName =~ "powershell.exe"
+| project AccountName, Timestamp, DeviceName, DeviceId, InitiatingProcessParentFileName, InitiatingProcessFileName, FileName, ProcessCommandLine, ProcessIntegrityLevel, ReportId
